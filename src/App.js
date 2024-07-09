@@ -18,9 +18,9 @@ function App() {
 
   return (
     <div>
-      <p>{JSON.stringify(produtos)}</p>
+      {/* <p>{JSON.stringify(produtos)}</p> TESTE QUE LISTA TODOS OS PRODUTOS NA INTERFACE */}
       <Formulario botao={btnCadastrar}/>
-      <Tabela/>
+      <Tabela vetor={produtos}/>
     </div>
   );
 }

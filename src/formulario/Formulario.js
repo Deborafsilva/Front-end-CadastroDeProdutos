@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Formulario({ botao, e }) {
+export default function Formulario({ botao, e, cadastrar }) {
     return (
         <form>
             <input type='text' onChange={e} name='nome' placeholder='Nome' className='form-control' />
@@ -10,7 +10,7 @@ export default function Formulario({ botao, e }) {
             {
                 botao
                     ? //se for true irá mostrar btn Cadastrar
-                    <input type='button' value='Cadastrar' className='btn btn-primary' />
+                    <input type='button' value='Cadastrar' onClick={cadastrar} className='btn btn-primary' />
                     : //senão, no caso de ser false retorna os demais btn's
                     <div>
                         <input type='button' value='Alterar' className='btn btn-warning' />

@@ -25,17 +25,48 @@ function App() {
   },[]);
 
   //Obtendo dados do formulário
-  const digitar = (e) =>{
+  const handlechange = (e) =>{
     setObjProduto({...objProduto,[e.target.name]:e.target.value});
   }
 
+  // Cadastrar produto
+  const cadastrar = () => {
+    fetch('http://localhost:8080/cadastrar',{
+      method:'post',
+      body:JSON.stringify(objProduto),
+      headers:{
+        'Content-type':'application/json',
+        'Accept':'application/json'
+      }
+    })
+    .then(retorno => retorno.json())
+    .then(retorno_convertido => {
+      // console.log(retorno_convertido);
+      
+      if(retorno_convertido.mensagem !== undefined){
+        alert(retorno_convertido.mensagem);
+      }else{
+        setProdutos([...produtos, retorno_convertido]);
+        alert('Produto cadastrado com sucesso!');
+        
+      }
+      
+    })
+  }
 
 
   return (
     <div>
       {/* <p>{JSON.stringify(objProduto)}</p> TESTE QUE LISTA TODOS OS PRODUTOS NA INTERFACE */}
-      <Formulario botao={btnCadastrar} e={digitar}/>
-      <Tabela vetor={produtos}/>
+      <Formulario 
+      botao={btnCadastrar} 
+      e={handlechange} 
+      cadastrar={cadastrar}
+      />
+
+      <Tabela 
+      vetor={produtos}
+      />
     </div>
   );
 }

@@ -15,6 +15,7 @@ function App() {
 
   const [btnCadastrar, setBtnCadastrar] = useState(true);
   const [produtos, setProdutos] = useState([]);
+  const [objProduto, setObjProduto] = useState(produto);
 
   useEffect(()=>{
     fetch("http://localhost:8080/listar")
@@ -23,10 +24,17 @@ function App() {
 
   },[]);
 
+  //Obtendo dados do formulário
+  const digitar = (e) =>{
+    setObjProduto({...objProduto,[e.target.name]:e.target.value});
+  }
+
+
+
   return (
     <div>
-      {/* <p>{JSON.stringify(produtos)}</p> TESTE QUE LISTA TODOS OS PRODUTOS NA INTERFACE */}
-      <Formulario botao={btnCadastrar}/>
+      {/* <p>{JSON.stringify(objProduto)}</p> TESTE QUE LISTA TODOS OS PRODUTOS NA INTERFACE */}
+      <Formulario botao={btnCadastrar} e={digitar}/>
       <Tabela vetor={produtos}/>
     </div>
   );

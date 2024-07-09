@@ -48,10 +48,16 @@ function App() {
       }else{
         setProdutos([...produtos, retorno_convertido]);
         alert('Produto cadastrado com sucesso!');
+        limparFormulario();
         
       }
       
     })
+  }
+
+  //Limpar Formulário
+  const limparFormulario = () => {
+    setObjProduto(produto);
   }
 
 
@@ -62,6 +68,7 @@ function App() {
       botao={btnCadastrar} 
       e={handlechange} 
       cadastrar={cadastrar}
+      limparForm={objProduto}
       />
 
       <Tabela 

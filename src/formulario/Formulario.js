@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default function Formulario({ botao, e, cadastrar, limparForm }) {
+export default function Formulario({ botao, event, cadastrar, limparForm }) {
     return (
         <form>
-            <input type='text' value={limparForm.nome} onChange={e} name='nome' placeholder='Nome' className='form-control' />
-            <input type='text' value={limparForm.marca} onChange={e} name='marca' placeholder='Marca' className='form-control' />
+            <input type='text' value={limparForm.nome} onChange={event} name='nome' placeholder='Nome' className='form-control' />
+            <input type='text' value={limparForm.marca} onChange={event} name='marca' placeholder='Marca' className='form-control' />
 
             {/* CRIANDO UMA CONDICIONAL */}
             {

@@ -60,19 +60,26 @@ function App() {
     setObjProduto(produto);
   }
 
+  //Selecionar produto
+  const selecionarProduto = (indice) => {
+    setObjProduto(produtos[indice]);
+    setBtnCadastrar(false);
+  }
+
 
   return (
     <div>
       {/* <p>{JSON.stringify(objProduto)}</p> TESTE QUE LISTA TODOS OS PRODUTOS NA INTERFACE */}
       <Formulario 
       botao={btnCadastrar} 
-      e={handlechange} 
+      event={handlechange} 
       cadastrar={cadastrar}
       limparForm={objProduto}
       />
 
       <Tabela 
       vetor={produtos}
+      selecionar={selecionarProduto}
       />
     </div>
   );

@@ -58,6 +58,8 @@ function App() {
   //Limpar Formulário
   const limparFormulario = () => {
     setObjProduto(produto);
+    //botão de cadastrar ficará vísivel
+    setBtnCadastrar(true);
   }
 
   //Selecionar produto
@@ -75,6 +77,7 @@ function App() {
       event={handlechange} 
       cadastrar={cadastrar}
       limparForm={objProduto}
+      cancelar={limparFormulario}
       />
 
       <Tabela 

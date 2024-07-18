@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Formulario({ botao, event, cadastrar, limparForm }) {
+export default function Formulario({ botao, event, cadastrar, limparForm, cancelar }) {
     return (
         <form>
             <input type='text' value={limparForm.nome} onChange={event} name='nome' placeholder='Nome' className='form-control' />
@@ -15,7 +15,7 @@ export default function Formulario({ botao, event, cadastrar, limparForm }) {
                     <div>
                         <input type='button' value='Alterar' className='btn btn-warning' />
                         <input type='button' value='Remover' className='btn btn-danger' />
-                        <input type='button' value='Cancelar' className='btn btn-secondary' />
+                        <input type='button' value='Cancelar' onClick={cancelar} className='btn btn-secondary' />
                     </div>
             }
         </form>

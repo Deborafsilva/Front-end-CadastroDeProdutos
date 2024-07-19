@@ -55,6 +55,42 @@ function App() {
     })
   }
 
+  // Remover produto
+  const remover = () => {
+    fetch('http://localhost:8080/remover/'+objProduto.codigo,{
+      method:'delete',
+      headers:{
+        'Content-type':'application/json',
+        'Accept':'application/json'
+      }
+    })
+    .then(retorno => retorno.json())
+    .then(retorno_convertido => {
+      // console.log(retorno_convertido);
+      
+      //Mensagem de alerta
+      alert(retorno_convertido.mensagem);
+
+      //Cópia do vetor de produtos
+      let vetorTemp = [...produtos];
+
+      //Índice onde está o produto
+      let indice = vetorTemp.findIndex((p)=>{
+        return p.codigo === objProduto.codigo;
+      });
+
+      //Remover o produto do vetorTemp
+      vetorTemp.splice(indice, 1);
+
+      //Atualizar o vetor produtos
+      setProdutos(vetorTemp);
+
+      //Limpar Formulário
+      limparFormulario();
+      
+    })
+  }
+
   //Limpar Formulário
   const limparFormulario = () => {
     setObjProduto(produto);
@@ -78,6 +114,7 @@ function App() {
       cadastrar={cadastrar}
       limparForm={objProduto}
       cancelar={limparFormulario}
+      remover={remover}
       />
 
       <Tabela 

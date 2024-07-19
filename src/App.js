@@ -17,78 +17,120 @@ function App() {
   const [produtos, setProdutos] = useState([]);
   const [objProduto, setObjProduto] = useState(produto);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch("http://localhost:8080/listar")
-    .then(retorno=> retorno.json())
-    .then(retorno_convertido => setProdutos(retorno_convertido));
+      .then(retorno => retorno.json())
+      .then(retorno_convertido => setProdutos(retorno_convertido));
 
-  },[]);
+  }, []);
 
   //Obtendo dados do formulário
-  const handlechange = (e) =>{
-    setObjProduto({...objProduto,[e.target.name]:e.target.value});
+  const handlechange = (e) => {
+    setObjProduto({ ...objProduto, [e.target.name]: e.target.value });
   }
 
   // Cadastrar produto
   const cadastrar = () => {
-    fetch('http://localhost:8080/cadastrar',{
-      method:'post',
-      body:JSON.stringify(objProduto),
-      headers:{
-        'Content-type':'application/json',
-        'Accept':'application/json'
+    fetch('http://localhost:8080/cadastrar', {
+      method: 'post',
+      body: JSON.stringify(objProduto),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
       }
     })
-    .then(retorno => retorno.json())
-    .then(retorno_convertido => {
-      // console.log(retorno_convertido);
-      
-      if(retorno_convertido.mensagem !== undefined){
-        alert(retorno_convertido.mensagem);
-      }else{
-        setProdutos([...produtos, retorno_convertido]);
-        alert('Produto cadastrado com sucesso!');
-        limparFormulario();
-        
+      .then(retorno => retorno.json())
+      .then(retorno_convertido => {
+        // console.log(retorno_convertido);
+
+        if (retorno_convertido.mensagem !== undefined) {
+          alert(retorno_convertido.mensagem);
+        } else {
+          setProdutos([...produtos, retorno_convertido]);
+          alert('Produto cadastrado com sucesso!');
+          limparFormulario();
+
+        }
+
+      })
+  }
+
+  // Alterar produto
+  const alterar = () => {
+    fetch('http://localhost:8080/alterar', {
+      method: 'put',
+      body: JSON.stringify(objProduto),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
       }
-      
     })
+      .then(retorno => retorno.json())
+      .then(retorno_convertido => {
+        // console.log(retorno_convertido);
+
+        if (retorno_convertido.mensagem !== undefined) {
+          alert(retorno_convertido.mensagem);
+        } else {
+          //Mensagem de alerta
+          alert('Produto alterado com sucesso!');
+
+          //Cópia do vetor de produtos
+          let vetorTemp = [...produtos];
+
+          //Índice onde está o produto
+          let indice = vetorTemp.findIndex((p) => {
+            return p.codigo === objProduto.codigo;
+          });
+
+          //Alterar o produto do vetorTemp
+          vetorTemp[indice] = objProduto;
+
+          //Atualizar o vetor produtos
+          setProdutos(vetorTemp);
+
+          //Limpar o formulário
+          limparFormulario();
+
+        }
+
+      })
   }
 
   // Remover produto
   const remover = () => {
-    fetch('http://localhost:8080/remover/'+objProduto.codigo,{
-      method:'delete',
-      headers:{
-        'Content-type':'application/json',
-        'Accept':'application/json'
+    fetch('http://localhost:8080/remover/' + objProduto.codigo, {
+      method: 'delete',
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json'
       }
     })
-    .then(retorno => retorno.json())
-    .then(retorno_convertido => {
-      // console.log(retorno_convertido);
-      
-      //Mensagem de alerta
-      alert(retorno_convertido.mensagem);
+      .then(retorno => retorno.json())
+      .then(retorno_convertido => {
+        // console.log(retorno_convertido);
 
-      //Cópia do vetor de produtos
-      let vetorTemp = [...produtos];
+        //Mensagem de alerta
+        alert(retorno_convertido.mensagem);
 
-      //Índice onde está o produto
-      let indice = vetorTemp.findIndex((p)=>{
-        return p.codigo === objProduto.codigo;
-      });
+        //Cópia do vetor de produtos
+        let vetorTemp = [...produtos];
 
-      //Remover o produto do vetorTemp
-      vetorTemp.splice(indice, 1);
+        //Índice onde está o produto
+        let indice = vetorTemp.findIndex((p) => {
+          return p.codigo === objProduto.codigo;
+        });
 
-      //Atualizar o vetor produtos
-      setProdutos(vetorTemp);
+        //Remover o produto do vetorTemp
+        vetorTemp.splice(indice, 1);
 
-      //Limpar Formulário
-      limparFormulario();
-      
-    })
+        //Atualizar o vetor produtos
+        setProdutos(vetorTemp);
+
+        //Limpar Formulário
+        limparFormulario();
+
+      })
   }
 
   //Limpar Formulário
@@ -108,18 +150,19 @@ function App() {
   return (
     <div>
       {/* <p>{JSON.stringify(objProduto)}</p> TESTE QUE LISTA TODOS OS PRODUTOS NA INTERFACE */}
-      <Formulario 
-      botao={btnCadastrar} 
-      event={handlechange} 
-      cadastrar={cadastrar}
-      limparForm={objProduto}
-      cancelar={limparFormulario}
-      remover={remover}
+      <Formulario
+        botao={btnCadastrar}
+        event={handlechange}
+        cadastrar={cadastrar}
+        limparForm={objProduto}
+        cancelar={limparFormulario}
+        remover={remover}
+        alterar={alterar}
       />
 
-      <Tabela 
-      vetor={produtos}
-      selecionar={selecionarProduto}
+      <Tabela
+        vetor={produtos}
+        selecionar={selecionarProduto}
       />
     </div>
   );
